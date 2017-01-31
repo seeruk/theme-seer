@@ -69,5 +69,9 @@ function fish_prompt
     echo -n -s $bold_directory_color $base $normal_color
   end
 
-  echo -n -s " \$ "
+  if [ (whoami) = "root" ]
+    echo -n -s " # "
+  else
+    echo -n -s " \$ "
+  end
 end
