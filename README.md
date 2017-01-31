@@ -23,7 +23,7 @@ $ fisher seeruk/theme-seer
 ## Screenshot
 
 <p align="center">
-  <img style="max-width: 575px" src="http://i.imgur.com/66l5eyG.png">
+  <img width="575px" src="http://i.imgur.com/66l5eyG.png">
 </p>
 
 ## Configuration
