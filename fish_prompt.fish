@@ -14,11 +14,11 @@ function fish_prompt
 
   set -l alive_whale ". ><((.___)"
   set -l dead_whale  ". ><((x___)"
-  set -l ahead       "↑"
-  set -l behind      "↓"
-  set -l diverged    "⇄"
-  set -l dirty       "x"
-  set -l none        "⇥"
+  set -l ahead       " ↑"
+  set -l behind      " ↓"
+  set -l diverged    " ⇄"
+  set -l dirty       " x"
+  set -l none        " ⇥"
 
   set -l trivial_color        (set_color brgrey)
   set -l normal_color         (set_color normal)
@@ -51,9 +51,9 @@ function fish_prompt
     end
 
     if git_is_touched
-      echo -n -s " on " $touched_repo_color (git_branch_name) $normal_color " "
+      echo -n -s " on " $touched_repo_color (git_branch_name) $normal_color
     else
-      echo -n -s " on " $pristine_repo_color (git_branch_name) $normal_color " "
+      echo -n -s " on " $pristine_repo_color (git_branch_name) $normal_color
     end
 
     if git_is_touched
@@ -70,8 +70,8 @@ function fish_prompt
   end
 
   if [ (whoami) = "root" ]
-    echo -n -s " # "
+    echo -n -s $trivial_color " # " $normal_color
   else
-    echo -n -s " \$ "
+    echo -n -s $trivial_color " \$ " $normal_color
   end
 end
