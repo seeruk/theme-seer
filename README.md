@@ -23,7 +23,7 @@ $ fisher seeruk/theme-seer
 ## Screenshot
 
 <p align="center">
-<img src="https://cloud.githubusercontent.com/assets/526122/9604024/ac338638-50ac-11e5-874a-70fa9287db93.png">
+  <img style="max-width: 499px" src="http://i.imgur.com/9DQ5kOH.png">
 </p>
 
 ## Configuration
