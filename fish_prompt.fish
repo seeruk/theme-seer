@@ -17,17 +17,20 @@ function fish_prompt
   set -l ahead       "↑"
   set -l behind      "↓"
   set -l diverged    "⇄"
-  set -l dirty       "⨯"
+  set -l dirty       "x"
   set -l none        "⇥"
 
-  set -l normal_color     (set_color normal)
-  set -l success_color    (set_color cyan)
-  set -l error_color      (set_color red)
-  set -l directory_color  (set_color brown)
-  set -l repository_color (set_color green)
+  set -l trivial_color        (set_color brgrey)
+  set -l normal_color         (set_color normal)
+  set -l success_color        (set_color cyan)
+  set -l error_color          (set_color red)
+  set -l directory_color      (set_color white)
+  set -l bold_directory_color (set_color white --bold)
+  set -l pristine_repo_color  (set_color green)
+  set -l touched_repo_color   (set_color yellow)
 
   if test $last_command_status -eq 0
-    echo -n -s $success_color $alive_whale $normal_color
+    echo -n -s $trivial_color $alive_whale $normal_color
   else
     echo -n -s $error_color $dead_whale $normal_color
   end
@@ -40,10 +43,18 @@ function fish_prompt
 
       echo -n -s " " $directory_color $cwd $normal_color
     else
+      set base (basename (prompt_pwd))
+      set cwd (echo $cwd | sed 's/'$base'$//')
+
       echo -n -s " " $directory_color $cwd $normal_color
+      echo -n -s $bold_directory_color $base $normal_color
     end
 
-    echo -n -s " on " $repository_color (git_branch_name) $normal_color " "
+    if git_is_touched
+      echo -n -s " on " $touched_repo_color (git_branch_name) $normal_color " "
+    else
+      echo -n -s " on " $pristine_repo_color (git_branch_name) $normal_color " "
+    end
 
     if git_is_touched
       echo -n -s $dirty
@@ -51,8 +62,12 @@ function fish_prompt
       echo -n -s (git_ahead $ahead $behind $diverged $none)
     end
   else
+    set base (basename (prompt_pwd))
+    set cwd (echo $cwd | sed 's/'$base'$//')
+
     echo -n -s " " $directory_color $cwd $normal_color
+    echo -n -s $bold_directory_color $base $normal_color
   end
 
-  echo -n -s " "
+  echo -n -s " \$ "
 end
