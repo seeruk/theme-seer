@@ -12,12 +12,13 @@ function fish_prompt
     set cwd (prompt_pwd)
   end
 
-  set -l fish     ">"
-  set -l ahead    "↑"
-  set -l behind   "↓"
-  set -l diverged "⥄ "
-  set -l dirty    "⨯"
-  set -l none     "◦"
+  set -l alive_whale ". ><((.___)"
+  set -l dead_whale  ". ><((x___)"
+  set -l ahead       "↑"
+  set -l behind      "↓"
+  set -l diverged    "⇄"
+  set -l dirty       "⨯"
+  set -l none        "⇥"
 
   set -l normal_color     (set_color normal)
   set -l success_color    (set_color cyan)
@@ -26,9 +27,9 @@ function fish_prompt
   set -l repository_color (set_color green)
 
   if test $last_command_status -eq 0
-    echo -n -s $success_color $fish $normal_color
+    echo -n -s $success_color $alive_whale $normal_color
   else
-    echo -n -s $error_color $fish $normal_color
+    echo -n -s $error_color $dead_whale $normal_color
   end
 
   if git_is_repo
