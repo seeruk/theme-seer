@@ -23,7 +23,7 @@ $ fisher seeruk/theme-seer
 ## Screenshot
 
 <p align="center">
-  <img src="http://i.imgur.com/MXGAffF.png">
+  <img width="708px" src="http://i.imgur.com/PpKQqtb.jpg">
 </p>
 
 # License
