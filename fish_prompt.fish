@@ -3,8 +3,8 @@ set -gu __seer_trivial_color        (set_color brgrey)
 set -gu __seer_normal_color         (set_color normal)
 set -gu __seer_success_color        (set_color cyan)
 set -gu __seer_error_color          (set_color red)
-set -gu __seer_directory_color      (set_color white)
-set -gu __seer_bold_directory_color (set_color white --bold)
+set -gu __seer_directory_color      (set_color blue)
+set -gu __seer_bold_directory_color (set_color blue)
 set -gu __seer_pristine_repo_color  (set_color green)
 set -gu __seer_touched_repo_color   (set_color yellow)
 set -gu __seer_git_directory_color  (set_color purple)
@@ -56,9 +56,9 @@ function __seer_prompt_git -d "Display the git root, git branch, and then path i
   __seer_path_segment $repo_root
 
   if git_is_touched
-    echo -n -s " on " $__seer_touched_repo_color (git_branch_name) $__seer_normal_color
+    echo -n -s $__seer_trivial_color " on " $__seer_touched_repo_color (git_branch_name) $__seer_normal_color
   else
-    echo -n -s " on " $__seer_pristine_repo_color (git_branch_name) $__seer_normal_color
+    echo -n -s $__seer_trivial_color " on " $__seer_pristine_repo_color (git_branch_name) $__seer_normal_color
   end
 
   if git_is_touched
@@ -70,7 +70,7 @@ function __seer_prompt_git -d "Display the git root, git branch, and then path i
   set -l repo_path (pwd | sed -e "s#^$repo_root##" | sed -e "s#^/##")
 
   if [ $repo_path != "" ]
-    echo -n -s " " $__seer_git_directory_color $repo_path $__seer_normal_color
+    echo -n -s $__seer_trivial_color " in " $__seer_git_directory_color $repo_path $__seer_normal_color
   end
 end
 

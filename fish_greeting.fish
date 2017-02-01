@@ -1,6 +1,7 @@
-function fish_greeting -d "what's up, fish?"
-  set_color white
+function fish_greeting -d "What's up, fish?"
+  set_color brgrey
   uname -npsr
-  uptime
+  uptime | sed -e 's/^[[:space:]]*//'
+  echo ""
   set_color normal
 end
