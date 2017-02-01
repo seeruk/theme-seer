@@ -26,13 +26,6 @@ $ fisher seeruk/theme-seer
   <img width="575px" src="http://i.imgur.com/66l5eyG.png">
 </p>
 
-## Configuration
-
-Only display the folder name:
-```
-set -g theme_short_path yes
-```
-
 # License
 
 [MIT][mit]
