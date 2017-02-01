@@ -51,7 +51,14 @@ function __seer_path_segment -d "Display a shortened form of a directory"
 end
 
 function __seer_prompt_git -d "Display the git root, git branch, and then path in the repo"
+  set -l git_in_git_dir (command git rev-parse --is-inside-git-dir)
   set -l repo_root (command git rev-parse --show-toplevel ^/dev/null)
+
+  if [ $git_in_git_dir = "true" ]
+    set repo_root (command realpath (git rev-parse --git-dir)'/..')
+  end
+
+  set -l repo_path (pwd | sed -e "s#^$repo_root##" | sed -e "s#^/##")
 
   __seer_path_segment $repo_root
 
@@ -67,11 +74,17 @@ function __seer_prompt_git -d "Display the git root, git branch, and then path i
     echo -n -s $__seer_pristine_repo_color (git_ahead $__seer_ahead $__seer_behind $__seer_diverged $__seer_none) $__seer_normal_color
   end
 
-  set -l repo_path (pwd | sed -e "s#^$repo_root##" | sed -e "s#^/##")
-
   if [ $repo_path != "" ]
     echo -n -s $__seer_trivial_color " in " $__seer_git_directory_color $repo_path $__seer_normal_color
   end
+
+  # if [ $git_in_git_dir != "true" ]
+  #   set -l repo_path (git rev-parse --show-prefix | sed -e 's#\/$##')
+  #
+  #   if [ $repo_path != "" ]
+  #     echo -n -s $__seer_trivial_color " in " $__seer_git_directory_color $repo_path $__seer_normal_color
+  #   end
+  # end
 end
 
 function __seer_prompt_dir -d "Display the entire path (but shortened)"
