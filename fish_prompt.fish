@@ -77,14 +77,6 @@ function __seer_prompt_git -d "Display the git root, git branch, and then path i
   if [ $repo_path != "" ]
     echo -n -s $__seer_trivial_color " in " $__seer_git_directory_color $repo_path $__seer_normal_color
   end
-
-  # if [ $git_in_git_dir != "true" ]
-  #   set -l repo_path (git rev-parse --show-prefix | sed -e 's#\/$##')
-  #
-  #   if [ $repo_path != "" ]
-  #     echo -n -s $__seer_trivial_color " in " $__seer_git_directory_color $repo_path $__seer_normal_color
-  #   end
-  # end
 end
 
 function __seer_prompt_dir -d "Display the entire path (but shortened)"
