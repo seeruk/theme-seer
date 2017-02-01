@@ -19,6 +19,7 @@ $ fisher seeruk/theme-seer
 * A subtle whale hanging out on to the left acting as previous command status.
 * Consistent width characters for git status.
 * Different colour for git branch name depending on state.
+* Short path, but separate full relative path from repo root when in a Git repo.
 
 ## Screenshot
 
