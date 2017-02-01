@@ -14,9 +14,9 @@ set __seer_alive_whale ". ><((.___)"
 set __seer_dead_whale  ". ><((x___)"
 set __seer_ahead       " ↑"
 set __seer_behind      " ↓"
-set __seer_diverged    " ⇄"
-set __seer_dirty       " x"
-set __seer_none        " ⇥"
+set __seer_diverged    " ↕"
+set __seer_dirty       " ✘"
+set __seer_none        " ≈"
 
 # Helpers
 function seer_prompt_status -d "Display the whale, showing last command status"
