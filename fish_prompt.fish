@@ -62,9 +62,9 @@ function __seer_prompt_git -d "Display the git root, git branch, and then path i
   end
 
   if git_is_touched
-    echo -n -s $__seer_dirty
+    echo -n -s $__seer_touched_repo_color $__seer_dirty $__seer_normal_color
   else
-    echo -n -s (git_ahead $__seer_ahead $__seer_behind $__seer_diverged $__seer_none)
+    echo -n -s $__seer_pristine_repo_color (git_ahead $__seer_ahead $__seer_behind $__seer_diverged $__seer_none) $__seer_normal_color
   end
 
   set -l repo_path (pwd | sed -e "s#^$repo_root##" | sed -e "s#^/##")
