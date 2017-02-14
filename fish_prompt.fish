@@ -1,5 +1,5 @@
 # Colours
-set -gu __seer_trivial_color        (set_color brblack)
+set -gu __seer_trivial_color        (set_color brgrey)
 set -gu __seer_normal_color         (set_color normal)
 set -gu __seer_success_color        (set_color cyan)
 set -gu __seer_error_color          (set_color red)
