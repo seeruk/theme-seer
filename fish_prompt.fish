@@ -83,6 +83,16 @@ function __seer_prompt_dir -d "Display the entire path (but shortened)"
   __seer_path_segment (pwd)
 end
 
+# Consider working on this...
+# function __seer_prompt_tid -d "Display timesheet short information via tid"
+#   command --search tid > /dev/null; and begin
+#     set -l tid_duration (tid status --format="{{.Entry.Duration}}")
+#     set -l tid_hash (tid status --format="{{.Entry.ShortHash}}")
+#
+#     echo -n -s $__seer_trivial_color " with " $__seer_success_color $tid_duration $__seer_trivial_color " on " $__seer_success_color $tid_hash $__seer_normal_color
+#   end
+# end
+
 function __seer_prompt_terminator -d "Shows the end of the prompt, before text, indicating root"
   echo ""
 
@@ -105,6 +115,8 @@ function fish_prompt
   else
     __seer_prompt_dir
   end
+
+  # __seer_prompt_tid
 
   __seer_prompt_terminator
 end
