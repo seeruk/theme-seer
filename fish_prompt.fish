@@ -97,9 +97,9 @@ function __seer_prompt_terminator -d "Shows the end of the prompt, before text, 
   echo ""
 
   if [ (whoami) = "root" ]
-    echo -n -s $__seer_trivial_color "⤷ # " $__seer_normal_color
+    echo -n -s $__seer_trivial_color "➔ # " $__seer_normal_color
   else
-    echo -n -s $__seer_trivial_color "⤷ \$ " $__seer_normal_color
+    echo -n -s $__seer_trivial_color "➔ \$ " $__seer_normal_color
   end
 end
 
