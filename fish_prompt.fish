@@ -52,7 +52,7 @@ end
 
 function __seer_prompt_git -d "Display the git root, git branch, and then path in the repo"
   set -l git_in_git_dir (command git rev-parse --is-inside-git-dir)
-  set -l repo_root (command git rev-parse --show-toplevel ^/dev/null)
+  set -l repo_root (command git rev-parse --show-toplevel 2> /dev/null)
 
   if [ $git_in_git_dir = "true" ]
     set repo_root (command realpath (git rev-parse --git-dir)'/..')
