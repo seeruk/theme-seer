@@ -1,3 +1,6 @@
+# name: theme-seer
+# preferred_background: black
+
 fish_color_autosuggestion 6B6F7D
 fish_color_cancel -r
 fish_color_command 4576FF
