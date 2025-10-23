@@ -10,6 +10,9 @@ set -gu __seer_touched_repo_color   (set_color yellow)
 set -gu __seer_git_directory_color  (set_color purple)
 
 # Symbols
+set -gu __seer_alive_gopher "ʕ◕⩊◕ʔ"
+set -gu __seer_angry_gopher "ʕ•̀ω•́ʔ"
+set -gu __seer_dead_gopher "ʕx_xʔ"
 set -gu __seer_alive_whale ". ><((.___)"
 set -gu __seer_dead_whale  ". ><((x___)"
 set -gu __seer_ahead       " ↑"
@@ -21,9 +24,9 @@ set -gu __seer_none        " ≈"
 # Helpers
 function __seer_prompt_status -d "Display the whale, showing last command status"
   if test $argv[1] -eq 0
-    echo -n -s $__seer_trivial_color $__seer_alive_whale $__seer_normal_color
+    echo -n -s $__seer_trivial_color $__seer_alive_gopher $__seer_normal_color
   else
-    echo -n -s $__seer_error_color $__seer_dead_whale $__seer_normal_color
+    echo -n -s $__seer_error_color $__seer_dead_gopher $__seer_normal_color
   end
 end
 
