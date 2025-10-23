@@ -12,7 +12,7 @@ set -gu __seer_git_directory_color  (set_color purple)
 # Symbols
 set -gu __seer_alive_gopher "ʕ◕⩊◕ʔ"
 set -gu __seer_angry_gopher "ʕ•̀ω•́ʔ"
-set -gu __seer_dead_gopher "ʕx_xʔ"
+set -gu __seer_dead_gopher "ʕ⤫﹏⤫ʔ"
 set -gu __seer_alive_whale ". ><((.___)"
 set -gu __seer_dead_whale  ". ><((x___)"
 set -gu __seer_ahead       " ↑"
