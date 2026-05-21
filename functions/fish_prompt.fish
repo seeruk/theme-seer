@@ -28,7 +28,16 @@ function __seer_prompt_status -d "Display the Gopher, showing last command statu
 end
 
 function __seer_path_parent -d "Display a parent directory, shortened to fit the prompt"
-  echo -n (dirname $argv[1]) | sed -e "s#^$HOME#~#" -e 's#/\(\.\{0,1\}[^/]\)\([^/]*\)#/\1#g' -e 's#/$##'
+  set -l parent (string replace -r '/[^/]*$' '' -- $argv[1])
+
+  if test "$parent" = "$HOME"
+    set parent "~"
+  else if string match -q "$HOME/*" -- $parent
+    set parent (string replace -- $HOME "~" $parent)
+  end
+
+  string replace -ar '/(\.?[^/])[^/]*' '/$1' -- $parent \
+    | string replace -r '/$' ''
 end
 
 function __seer_path_segment -d "Display a shortened form of a directory"
@@ -43,7 +52,7 @@ function __seer_path_segment -d "Display a shortened form of a directory"
     case "*"
       set parent (__seer_path_parent "$argv[1]")
       set parent "$parent/"
-      set directory (basename "$argv[1]")
+      set directory (string replace -r '^.*/' '' -- $argv[1])
   end
 
   echo -n -s " " $__seer_directory_color $parent $__seer_normal_color
@@ -58,7 +67,7 @@ function __seer_prompt_git -d "Display the git root, git branch, and then path i
     set repo_root (command realpath (git rev-parse --git-dir)'/..')
   end
 
-  set -l repo_path (pwd | sed -e "s#^$repo_root##" | sed -e "s#^/##")
+  set -l repo_path (string replace -- $repo_root "" (pwd) | string trim -l -c /)
 
   __seer_path_segment $repo_root
 
@@ -86,7 +95,7 @@ end
 function __seer_prompt_terminator -d "Shows the end of the prompt, before text, indicating root"
   echo ""
 
-  if [ (whoami) = "root" ]
+  if [ "$USER" = "root" ]
     echo -n -s $__seer_trivial_color "➔ # " $__seer_normal_color
   else
     echo -n -s $__seer_trivial_color "➔ \$ " $__seer_normal_color
