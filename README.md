@@ -8,11 +8,11 @@ $ fisher seeruk/theme-seer
 
 ## Features
 
-* All the things you need to know about Git at a glance.
+* Compact Git status via Fish's built-in Git prompt.
 * A subtle Gopher hanging out on the left acting as previous command status.
 * Consistent width characters for git status.
 * Different colours for git branch name depending on state.
-* Short path, but separate full relative path from repo root when in a Git repo.
+* Short path display, with branch, change state, and upstream status when in a Git repo.
 
 ## Screenshot
 

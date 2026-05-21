@@ -1,22 +1,36 @@
 # Colours
 set -gu __seer_trivial_color        (set_color brgrey)
 set -gu __seer_normal_color         (set_color normal)
-set -gu __seer_success_color        (set_color cyan)
 set -gu __seer_error_color          (set_color red)
 set -gu __seer_directory_color      (set_color blue)
 set -gu __seer_bold_directory_color (set_color blue)
-set -gu __seer_pristine_repo_color  (set_color green)
-set -gu __seer_touched_repo_color   (set_color yellow)
-set -gu __seer_git_directory_color  (set_color purple)
 
 # Symbols
 set -gu __seer_alive_gopher "ʕ◕⩊◕ʔ"
 set -gu __seer_dead_gopher "ʕ⤫﹏⤫ʔ"
-set -gu __seer_ahead       " ↑"
-set -gu __seer_behind      " ↓"
-set -gu __seer_diverged    " ↕"
-set -gu __seer_dirty       " ✘"
-set -gu __seer_none        " ≈"
+
+# Git prompt
+set -g __fish_git_prompt_showdirtystate 1
+set -g __fish_git_prompt_showuntrackedfiles 0
+set -g __fish_git_prompt_showupstream auto
+set -g __fish_git_prompt_show_informative_status 0
+set -g __fish_git_prompt_showcolorhints 1
+set -g __fish_git_prompt_char_stateseparator ""
+set -g __fish_git_prompt_char_dirtystate " ✘"
+set -g __fish_git_prompt_char_stagedstate " +"
+set -g __fish_git_prompt_char_invalidstate " ✖"
+set -g __fish_git_prompt_char_upstream_ahead " ↑"
+set -g __fish_git_prompt_char_upstream_behind " ↓"
+set -g __fish_git_prompt_char_upstream_diverged " ↕"
+set -g __fish_git_prompt_char_upstream_equal " ≈"
+set -g __fish_git_prompt_color_branch green
+set -g __fish_git_prompt_color_branch_dirty yellow
+set -g __fish_git_prompt_color_branch_staged yellow
+set -g __fish_git_prompt_color_branch_detached red
+set -g __fish_git_prompt_color_dirtystate yellow
+set -g __fish_git_prompt_color_stagedstate yellow
+set -g __fish_git_prompt_color_invalidstate red
+set -g __fish_git_prompt_color_upstream green
 
 # Helpers
 function __seer_prompt_status -d "Display the Gopher, showing last command status"
@@ -59,37 +73,19 @@ function __seer_path_segment -d "Display a shortened form of a directory"
   echo -n -s $__seer_bold_directory_color $directory $__seer_normal_color
 end
 
-function __seer_prompt_git -d "Display the git root, git branch, and then path in the repo"
-  set -l git_in_git_dir (command git rev-parse --is-inside-git-dir)
-  set -l repo_root (command git rev-parse --show-toplevel 2> /dev/null)
-
-  if [ $git_in_git_dir = "true" ]
-    set repo_root (command realpath (git rev-parse --git-dir)'/..')
-  end
-
-  set -l repo_path (string replace -- $repo_root "" (pwd) | string trim -l -c /)
-
-  __seer_path_segment $repo_root
-
-  if git_is_touched
-    echo -n -s $__seer_trivial_color " on " $__seer_touched_repo_color (git_branch_name) $__seer_normal_color
-  else
-    echo -n -s $__seer_trivial_color " on " $__seer_pristine_repo_color (git_branch_name) $__seer_normal_color
-  end
-
-  if git_is_touched
-    echo -n -s $__seer_touched_repo_color $__seer_dirty $__seer_normal_color
-  else
-    echo -n -s $__seer_pristine_repo_color (git_ahead $__seer_ahead $__seer_behind $__seer_diverged $__seer_none) $__seer_normal_color
-  end
-
-  if [ $repo_path != "" ]
-    echo -n -s $__seer_trivial_color " in " $__seer_git_directory_color $repo_path $__seer_normal_color
-  end
-end
-
 function __seer_prompt_dir -d "Display the entire path (but shortened)"
   __seer_path_segment (pwd)
+end
+
+function __seer_prompt_git -d "Display Git status via Fish's built-in git prompt"
+  set -l git_prompt (fish_git_prompt " on %s")
+
+  if test -n "$git_prompt"
+    string match -q "* ✘*" -- $git_prompt; or string match -q "* +*" -- $git_prompt; or string match -q "* ✖*" -- $git_prompt
+    and set git_prompt (string replace " ≈" "" -- $git_prompt)
+
+    echo -n -s $__seer_trivial_color $git_prompt $__seer_normal_color
+  end
 end
 
 function __seer_prompt_terminator -d "Shows the end of the prompt, before text, indicating root"
@@ -107,12 +103,8 @@ function fish_prompt
   set last_command_status $status
 
   __seer_prompt_status $last_command_status
-
-  if git_is_repo
-    __seer_prompt_git
-  else
-    __seer_prompt_dir
-  end
+  __seer_prompt_dir
+  __seer_prompt_git
 
   __seer_prompt_terminator
 end
