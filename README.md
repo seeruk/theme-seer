@@ -1,11 +1,4 @@
-<div align="center">
-  <a href="http://github.com/fish-shell/omf">
-  <img width=100px src="https://avatars1.githubusercontent.com/u/17060082?v=3&s=200">
-  </a>
-</div>
-<br>
-
-> Seer's theme for [Fisherman][fisherman-link].
+> Seer's theme for [Fisher][fisher-link].
 
 ## Install
 
@@ -15,16 +8,16 @@ $ fisher seeruk/theme-seer
 
 ## Features
 
-* All the things you need to know about Git in a glance.
-* A subtle whale hanging out on to the left acting as previous command status.
+* All the things you need to know about Git at a glance.
+* A subtle Gopher hanging out on the left acting as previous command status.
 * Consistent width characters for git status.
-* Different colour for git branch name depending on state.
+* Different colours for git branch name depending on state.
 * Short path, but separate full relative path from repo root when in a Git repo.
 
 ## Screenshot
 
 <p align="center">
-  <img width="708px" src="http://i.imgur.com/PpKQqtb.jpg">
+  <img width="349" src="img.png">
 </p>
 
 # License
@@ -36,7 +29,7 @@ $ fisher seeruk/theme-seer
 [bpinto][author] et [al][contributors]
 
 
-[mit]:            http://opensource.org/licenses/MIT
-[author]:         http://github.com/bpinto
-[contributors]:   https://github.com/oh-my-fish/theme-default/graphs/contributors
-[fisherman-link]: https://github.com/fisherman/fisherman
+[mit]:          http://opensource.org/licenses/MIT
+[author]:       http://github.com/bpinto
+[contributors]: https://github.com/oh-my-fish/theme-default/graphs/contributors
+[fisher-link]:  https://github.com/jorgebucaran/fisher

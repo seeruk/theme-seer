@@ -1,4 +1,4 @@
-# Colours
+# Colours
 set -gu __seer_trivial_color        (set_color brgrey)
 set -gu __seer_normal_color         (set_color normal)
 set -gu __seer_success_color        (set_color cyan)
@@ -9,12 +9,9 @@ set -gu __seer_pristine_repo_color  (set_color green)
 set -gu __seer_touched_repo_color   (set_color yellow)
 set -gu __seer_git_directory_color  (set_color purple)
 
-# Symbols
+# Symbols
 set -gu __seer_alive_gopher "ʕ◕⩊◕ʔ"
-set -gu __seer_angry_gopher "ʕ•̀ω•́ʔ"
 set -gu __seer_dead_gopher "ʕ⤫﹏⤫ʔ"
-set -gu __seer_alive_whale ". ><((.___)"
-set -gu __seer_dead_whale  ". ><((x___)"
 set -gu __seer_ahead       " ↑"
 set -gu __seer_behind      " ↓"
 set -gu __seer_diverged    " ↕"
@@ -22,7 +19,7 @@ set -gu __seer_dirty       " ✘"
 set -gu __seer_none        " ≈"
 
 # Helpers
-function __seer_prompt_status -d "Display the whale, showing last command status"
+function __seer_prompt_status -d "Display the Gopher, showing last command status"
   if test $argv[1] -eq 0
     echo -n -s $__seer_trivial_color $__seer_alive_gopher $__seer_normal_color
   else
@@ -86,16 +83,6 @@ function __seer_prompt_dir -d "Display the entire path (but shortened)"
   __seer_path_segment (pwd)
 end
 
-# Consider working on this...
-# function __seer_prompt_tid -d "Display timesheet short information via tid"
-#   command --search tid > /dev/null; and begin
-#     set -l tid_duration (tid status --format="{{.Entry.Duration}}")
-#     set -l tid_hash (tid status --format="{{.Entry.ShortHash}}")
-#
-#     echo -n -s $__seer_trivial_color " with " $__seer_success_color $tid_duration $__seer_trivial_color " on " $__seer_success_color $tid_hash $__seer_normal_color
-#   end
-# end
-
 function __seer_prompt_terminator -d "Shows the end of the prompt, before text, indicating root"
   echo ""
 
@@ -106,10 +93,9 @@ function __seer_prompt_terminator -d "Shows the end of the prompt, before text, 
   end
 end
 
-# Prompt
+# Prompt
 function fish_prompt
   set last_command_status $status
-  set -l cwd (prompt_pwd)
 
   __seer_prompt_status $last_command_status
 
@@ -118,8 +104,6 @@ function fish_prompt
   else
     __seer_prompt_dir
   end
-
-  # __seer_prompt_tid
 
   __seer_prompt_terminator
 end
