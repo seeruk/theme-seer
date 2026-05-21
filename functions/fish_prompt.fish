@@ -4,6 +4,7 @@ set -gu __seer_normal_color         (set_color normal)
 set -gu __seer_error_color          (set_color red)
 set -gu __seer_directory_color      (set_color blue)
 set -gu __seer_bold_directory_color (set_color blue)
+set -gu __seer_git_directory_color  (set_color purple)
 
 # Symbols
 set -gu __seer_alive_gopher "ʕ◕⩊◕ʔ"
@@ -17,7 +18,7 @@ set -g __fish_git_prompt_show_informative_status 0
 set -g __fish_git_prompt_showcolorhints 1
 set -g __fish_git_prompt_char_stateseparator ""
 set -g __fish_git_prompt_char_dirtystate " ✘"
-set -g __fish_git_prompt_char_stagedstate " +"
+set -g __fish_git_prompt_char_stagedstate " ✔"
 set -g __fish_git_prompt_char_invalidstate " ✖"
 set -g __fish_git_prompt_char_upstream_ahead " ↑"
 set -g __fish_git_prompt_char_upstream_behind " ↓"
@@ -74,17 +75,39 @@ function __seer_path_segment -d "Display a shortened form of a directory"
 end
 
 function __seer_prompt_dir -d "Display the entire path (but shortened)"
-  __seer_path_segment (pwd)
+  __seer_path_segment $PWD
 end
 
 function __seer_prompt_git -d "Display Git status via Fish's built-in git prompt"
   set -l git_prompt (fish_git_prompt " on %s")
 
   if test -n "$git_prompt"
-    string match -q "* ✘*" -- $git_prompt; or string match -q "* +*" -- $git_prompt; or string match -q "* ✖*" -- $git_prompt
-    and set git_prompt (string replace " ≈" "" -- $git_prompt)
+    set -l repo_root $PWD
+    set -l repo_path (string trim -r -c / -- (command git rev-parse --show-prefix 2> /dev/null))
+
+    if test -n "$repo_path"
+      set repo_root (string replace -r "/"(string escape --style=regex $repo_path)"\$" "" -- $repo_root)
+    end
+
+    if test -n "$repo_root"
+      __seer_path_segment "$repo_root"
+    else
+      __seer_prompt_dir
+    end
+
+    if string match -q "*$__fish_git_prompt_char_dirtystate*" -- $git_prompt
+      or string match -q "*$__fish_git_prompt_char_stagedstate*" -- $git_prompt
+      or string match -q "*$__fish_git_prompt_char_invalidstate*" -- $git_prompt
+      set git_prompt (string replace $__fish_git_prompt_char_upstream_equal "" -- $git_prompt)
+    end
 
     echo -n -s $__seer_trivial_color $git_prompt $__seer_normal_color
+
+    if test -n "$repo_path"
+      echo -n -s $__seer_trivial_color " in " $__seer_git_directory_color $repo_path $__seer_normal_color
+    end
+  else
+    __seer_prompt_dir
   end
 end
 
@@ -103,7 +126,6 @@ function fish_prompt
   set last_command_status $status
 
   __seer_prompt_status $last_command_status
-  __seer_prompt_dir
   __seer_prompt_git
 
   __seer_prompt_terminator
